@@ -15,7 +15,7 @@ async function list() {
 
 async function get(id: number) {
   const response = await fetch(`https://statsapi.web.nhl.com/api/v1/franchises/${id}`).then(res => res.json())
-  return response.franchise as Franchise
+  return response.franchises[0] as Franchise
 }
 
 export const Franchises = {

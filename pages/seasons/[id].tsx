@@ -1,21 +1,22 @@
-import { Franchise, Franchises } from "../../nhl/franchises";
+import { Season, Seasons } from "../../nhl/seasons";
 import { NextPage } from "next";
 import Link from 'next/link';
 
 type Props = {
-  franchise: Franchise
+  season: Season
 }
 
-const Page: NextPage<Props> = ({ franchise }) => {
+const Page: NextPage<Props> = ({ season }) => {
   return (
     <div>
-      <h1>{franchise.locationName} {franchise.teamName}</h1>
+      <h1>{Seasons.name(season.seasonId)}</h1>
+      <pre>{JSON.stringify(season, null, 2)}</pre>
     </div>
   )
 }
 
 export async function getStaticPaths() {
-  const paths = (await Franchises.list()).map(f => `/franchises/${f.franchiseId}`)
+  const paths = (await Seasons.list()).map(season => `/seasons/${season.seasonId}`)
   return {
     paths,
     fallback: false
@@ -27,7 +28,7 @@ export async function getStaticProps(context) {
   const { id } = params
   return {
     props: {
-      franchise: await Franchises.get(id)
+      season: await Seasons.get(id)
     }
   }
 }
